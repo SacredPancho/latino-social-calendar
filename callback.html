@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Authorization Complete - Latino Social Calendar</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body { font-family: -apple-system, Arial, sans-serif; max-width: 640px; margin: 60px auto; padding: 0 20px; color: #222; line-height: 1.6; }
+h1 { font-size: 22px; }
+code { background: #f2f2f2; padding: 12px; display: block; border-radius: 6px; word-break: break-all; font-size: 15px; margin: 16px 0; }
+button { padding: 8px 16px; font-size: 14px; cursor: pointer; }
+.muted { color: #666; font-size: 14px; }
+</style>
+</head>
+<body>
+<h1>Authorization complete</h1>
+<p>Copy the code below and paste it back into the terminal to finish connecting.</p>
+<code id="code">Reading authorization code...</code>
+<button id="copyBtn">Copy code</button>
+<p class="muted" id="status"></p>
+<script>
+const params = new URLSearchParams(window.location.search);
+const code = params.get('code');
+const error = params.get('error');
+const codeEl = document.getElementById('code');
+const statusEl = document.getElementById('status');
+if (error) {
+  codeEl.textContent = 'Error: ' + error;
+} else if (code) {
+  codeEl.textContent = code;
+} else {
+  codeEl.textContent = 'No code found in URL. Check the address bar for a "code=" parameter.';
+}
+document.getElementById('copyBtn').addEventListener('click', () => {
+  navigator.clipboard.writeText(codeEl.textContent).then(() => {
+    statusEl.textContent = 'Copied to clipboard.';
+  });
+});
+</script>
+</body>
+</html>
